@@ -37,12 +37,15 @@ class ResponsiveWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, dimens) {
+        //check if the device is a phone
         if (dimens.maxWidth < kTabletBreakpoint) {
           return mobileBody;
         } else if (dimens.maxWidth >= kTabletBreakpoint &&
             dimens.maxWidth < kDesktopBreakPoint) {
+          //returns mobileBody if tabletBody is null
           return tabletBody ?? mobileBody;
         } else {
+          //returns mobileBody if desktopBody is null
           return desktopBody ?? mobileBody;
         }
       },
@@ -57,9 +60,14 @@ class MediaQueryExample extends StatelessWidget {
     print(screenW);
 
     return Scaffold(
-      appBar:
-          screenW <= 600 ? AppBar(title: Text("Will hide on rotating")) : null,
-      body: Center(),
+      //when screen's width is less than 600px, it shows a appbar, when it's over 600px, ithides it.
+      appBar: screenW <= 600
+          ? AppBar(
+              title: Text("Geeks for Geeks"), backgroundColor: Colors.green)
+          : null,
+      body: Center(
+        child: Text("Mediaquery example"),
+      ),
     );
   }
 }
@@ -68,11 +76,15 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('LayoutBuilder Demo')),
+      appBar:
+          AppBar(title: Text("Geeks for Geeks"), backgroundColor: Colors.green),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
+          //constraints provide us with maxWidth,maxHeight etc, using
+          //which we can show different widgets accordingly
           if (constraints.maxWidth > 600) {
-            return _buildWideContainers();
+            //as the width is greater than 600px, we'll show wide screen container
+            return _buildWideScreenContainers();
           } else {
             return _buildPortraitContainer();
           }
@@ -82,6 +94,8 @@ class Home extends StatelessWidget {
   }
 
   Widget _buildPortraitContainer() {
+//here we're returning a single container since the phone
+//doesn't have the required width (600px)
     return Center(
       child: Container(
         height: 100.0,
@@ -91,7 +105,9 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget _buildWideContainers() {
+  Widget _buildWideScreenContainers() {
+//here we're returning double containers since the phone
+// have the required width (600px)
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
